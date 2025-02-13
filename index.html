@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>চিঠি লেখক</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-yellow-50 flex justify-center items-center min-h-screen">
+
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center text-red-500">🍂 ফাগুনের শুভেচ্ছা চিঠি</h2>
+
+        <label class="block mt-4 text-gray-700">📌 প্রাপকের নাম:</label>
+        <input type="text" id="recipientName" class="w-full p-2 border rounded-lg mt-1" placeholder="প্রাপকের নাম লিখুন">
+
+        <label class="block mt-4 text-gray-700">👤 আপনার নাম:</label>
+        <input type="text" id="yourName" class="w-full p-2 border rounded-lg mt-1" placeholder="আপনার নাম লিখুন">
+
+        <label class="block mt-4 text-gray-700">✉️ আপনার বার্তা:</label>
+        <input type="text" id="message" class="w-full p-2 border rounded-lg mt-1" placeholder="বার্তা লিখুন (ঐচ্ছিক)">
+
+        <button onclick="generateLetter()" 
+            class="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition">
+            🍁 চিঠি তৈরি করুন
+        </button>
+
+        <h3 class="mt-6 text-lg font-bold text-gray-700">📜 তৈরি করা চিঠি:</h3>
+        <textarea id="letterOutput" class="w-full h-40 p-3 border rounded-lg mt-2 bg-gray-50" readonly></textarea>
+
+        <button onclick="copyToClipboard()" 
+            class="mt-3 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+            📋 কপি করুন
+        </button>
+    </div>
+
+    <script>
+        function generateLetter() {
+            let recipientName = document.getElementById("recipientName").value || "প্রিয় বন্ধু";
+            let yourName = document.getElementById("yourName").value || "আপনার নাম";
+            let message = document.getElementById("message").value || "তোমার সাথে আবার দেখা করার অপেক্ষায় আছি।";
+
+            let letterTemplate = `
+প্রিয় ${recipientName},  
+
+ফাগুনের রঙিন শুভেচ্ছা তোমার জন্য! 🌸🍃  
+
+এই ঋতুর হালকা মিষ্টি বাতাস, কোকিলের সুর, আর শিমুল-পলাশের লাল আভা যেন আমাদের হৃদয়ে ভালোবাসার এক নতুন স্পন্দন জাগিয়ে তোলে।  
+
+অনেক দিন ধরে তোমার কোনো খবর পাইনি, তাই এই চিঠি লিখছি। জীবনের এই ছোট ছোট মুহূর্তগুলোই তো আমাদের স্মৃতির পাতায় অমূল্য হয়ে থাকে। তুমি কেমন আছো? আশা করি, তোমার দিনগুলো ভালো কাটছে, আর তোমার হাসি আগের মতোই রঙিন রয়েছে।  
+
+${message}  
+
+ফুলের সুবাস আর ফাগুনের হাওয়া তোমার মনকে আরও প্রফুল্ল করুক। শীঘ্রই দেখা হবে, এই প্রত্যাশায় রইলাম।  
+
+শুভেচ্ছাসহ,  
+${yourName}  
+            `;
+
+            document.getElementById("letterOutput").value = letterTemplate;
+        }
+
+        function copyToClipboard() {
+            let letterText = document.getElementById("letterOutput");
+            letterText.select();
+            document.execCommand("copy");
+            alert("📋 চিঠি কপি হয়েছে!");
+        }
+    </script>
+
+</body>
+</html>
