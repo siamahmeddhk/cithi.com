@@ -6,10 +6,22 @@
     <title>চিঠি লেখক</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-yellow-50 flex justify-center items-center min-h-screen">
-
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 class="text-2xl font-bold text-center text-red-500">🍂 চিঠি.com</h2>
+<body class="bg-yellow-50 flex justify-center items-center min-h-screen transition-all duration-300" id="body">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md" id="container">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-center text-red-500">🍂 চিঠি.com</h2>
+            <div class="flex gap-2">
+                <button id="lightThemeBtn" class="p-1 rounded-full bg-gray-200 hover:bg-gray-300" title="Light Theme">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </button>
+                <button id="darkThemeBtn" class="p-1 rounded-full bg-gray-200 hover:bg-gray-300" title="Dark Theme">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                <button id="romanticThemeBtn" class="p-1 rounded-full bg-gray-200 hover:bg-gray-300" title="Romantic Theme">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                </button>
+            </div>
+        </div>
 
         <label class="block mt-4 text-gray-700">📌 প্রাপকের নাম:</label>
         <input type="text" id="recipientName" class="w-full p-2 border rounded-lg mt-1" placeholder="যার উদ্দেশ্যে লিখছেন">
@@ -34,7 +46,7 @@
         </select>
 
         <button onclick="generateLetter()" 
-            class="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition">
+            class="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition" id="generateBtn">
             🍁 চিঠি তৈরি করুন
         </button>
 
@@ -42,12 +54,48 @@
         <textarea id="letterOutput" class="w-full h-40 p-3 border rounded-lg mt-2 bg-gray-50" readonly></textarea>
 
         <button onclick="copyToClipboard()" 
-            class="mt-3 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+            class="mt-3 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition" id="copyBtn">
             📋 কপি করুন
         </button>
     </div>
 
     <script>
+        // Theme Switching
+        const body = document.getElementById('body');
+        const container = document.getElementById('container');
+        const generateBtn = document.getElementById('generateBtn');
+        const copyBtn = document.getElementById('copyBtn');
+
+        document.getElementById('lightThemeBtn').addEventListener('click', () => {
+            body.className = 'bg-yellow-50 flex justify-center items-center min-h-screen transition-all duration-300';
+            container.className = 'bg-white p-6 rounded-lg shadow-lg w-full max-w-md';
+            generateBtn.className = 'mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition';
+            copyBtn.className = 'mt-3 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition';
+            updateTextColors('text-gray-700');
+        });
+
+        document.getElementById('darkThemeBtn').addEventListener('click', () => {
+            body.className = 'bg-gray-900 flex justify-center items-center min-h-screen transition-all duration-300';
+            container.className = 'bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md';
+            generateBtn.className = 'mt-4 w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition';
+            copyBtn.className = 'mt-3 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition';
+            updateTextColors('text-gray-200');
+        });
+
+        document.getElementById('romanticThemeBtn').addEventListener('click', () => {
+            body.className = 'bg-pink-100 flex justify-center items-center min-h-screen transition-all duration-300';
+            container.className = 'bg-pink-50 p-6 rounded-lg shadow-lg w-full max-w-md border border-pink-300';
+            generateBtn.className = 'mt-4 w-full bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600 transition';
+            copyBtn.className = 'mt-3 w-full bg-rose-500 text-white py-2 rounded-lg hover:bg-rose-600 transition';
+            updateTextColors('text-rose-700');
+        });
+
+        function updateTextColors(colorClass) {
+            document.querySelectorAll('label, h3').forEach(el => el.className = `block mt-4 ${colorClass}`);
+            document.querySelector('h2').className = `text-2xl font-bold text-center ${colorClass === 'text-gray-200' ? 'text-red-400' : 'text-red-500'}`;
+        }
+
+        // Letter Generation (Same as your original code)
         function generateLetter() {
             let recipientName = document.getElementById("recipientName").value || "প্রিয় বন্ধু";
             let yourName = document.getElementById("yourName").value || "আপনার নাম";
@@ -218,8 +266,5 @@ ${yourName}
             });
         }
     </script>
-
 </body>
 </html>
-
-
